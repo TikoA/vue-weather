@@ -4,7 +4,7 @@
       <img src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/160/openmoji/252/thermometer_1f321.png" alt="">
       <h1 style="margin-left: 10px;">Tigran Weather</h1>
       <div>
-        <input v-model="query" type="text" class="search-bar" @keypress="getWeather" placeholder="Search..."/>
+        <input v-model="query" type="text" class="search-bar" @keyup.enter="getWeather" placeholder="Search..."/>
       </div>
       <div v-if="weather">
         <div v-if="weather.main" class="weather-info">
@@ -47,13 +47,10 @@ export default {
   },
   methods : {
     async getWeather(e) {
-      if (e.key === 'Enter') {
         const date = await fetch(`${this.base_url}weather?q=${this.query}&units=metric&APPID=${this.api_key}`)
         const weather = await date.json()
         this.setResult(weather)
         this.query='';
-
-      }
     },
     setResult(weather) {
       this.weather = weather
